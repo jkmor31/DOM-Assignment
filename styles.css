@@ -5,21 +5,24 @@ body {
     background-color: aliceblue;
 }
 header {
-    min-height: 15vh;
+    min-height: 10vh;
     border: 2px solid black;
-    width: 90vw;
+    width: 80vw;
     margin: 20px auto;
     background-color: antiquewhite;
 }
 section {
     display: flex;
-    justify-content: space-evenly;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
     flex-direction: column;
-    min-height: 50vh;
+    min-height: 30vh;
     padding: 30px;
     background-color: aliceblue;
 }
 
 div {
-    max-width: 30vw;
+    max-width: 50vw;
+    height: 10vh;
 }

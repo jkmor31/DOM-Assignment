@@ -3,13 +3,28 @@ const btn = document.querySelector("button");
 const principal = document.getElementById("principal");
 const interest = document.getElementById("interest");
 const time = document.getElementById("time");
-const amountText = document.createElement("p");
+let amountText = document.createElement("p");
+let amount = 0;
+let itemInStorage = localStorage.getItem("sprint-demo");
+if (itemInStorage) {
+    amount = itemInStorage;
+    amountText.innerText = `Your total balance will be: $${amount}`;
+    body.appendChild(amountText);
+}
 
 function calculateInterest(){
-    let amount = principal.value * (1 + interest.value) ** time.value;
-    
-    amountText.innerText = amount;
+    amount = principal.value * (1 + interest.value * time.value);
+    amount = amount.toFixed(2);
+    amountText.innerText = `Your total balance will be: $${amount}`;
+    localStorage.setItem("sprint-demo", amount);
     body.appendChild(amountText);
+}
+
+function clearInterest() {
+    if (itemInStorage) {
+        localStorage.removeItem("sprint-demo");
+        amountText.innerText = "";
+    }
 }
 
 
