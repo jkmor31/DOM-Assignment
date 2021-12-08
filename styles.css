@@ -1,0 +1,25 @@
+body {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 30px;
+    background-color: aliceblue;
+}
+header {
+    min-height: 15vh;
+    border: 2px solid black;
+    width: 90vw;
+    margin: 20px auto;
+    background-color: antiquewhite;
+}
+section {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    min-height: 50vh;
+    padding: 30px;
+    background-color: aliceblue;
+}
+
+div {
+    max-width: 30vw;
+}
