@@ -10,7 +10,28 @@ let storage = [];
 let amount;
 
 for (let key in localStorage) {
-    
+    let storedArray = localStorage.getItem(key);
+    if (storedArray) {
+        storedArray = JSON.parse(storedArray);
+        let row = document.createElement("tr");
+        row.setAttribute("id", `row-${storedArray[0]}`);
+        for (let i = 0; i < storedArray.length; i++) {
+            let data = document.createElement("td");
+            data.innerText = storedArray[i];
+            row.appendChild(data);
+        };
+        let deleteBtn = document.createElement("button");
+        deleteBtn.setAttribute("onclick", "{deleteData()}");
+        deleteBtn.setAttribute("class", `${storedArray[0]}`);
+        deleteBtn.innerText = "Delete";
+        row.appendChild(deleteBtn);
+        let updateBtn = document.createElement("button");
+        updateBtn.setAttribute("onclick", "{updateData()}");
+        updateBtn.setAttribute("class", `${storedArray[0]}`);
+        updateBtn.innerText = "Update";
+        row.appendChild(updateBtn);
+        table.appendChild(row);
+    }
 }
 
 function calculateInterest(){
@@ -21,7 +42,7 @@ function calculateInterest(){
 }
 
 function addData() {
-    const row = document.createElement("tr");
+    let row = document.createElement("tr");
     row.setAttribute("id", `row-${label.value}`);
     let storageString = JSON.stringify(storage);
     localStorage.setItem(`row-${label.value}`, storageString);
@@ -34,28 +55,59 @@ function addData() {
     
     let deleteBtn = document.createElement("button");
     deleteBtn.setAttribute("onclick", "{deleteData()}");
-    deleteBtn.setAttribute("id", `btn-${label.value}`);
+    deleteBtn.setAttribute("class", `${storageArray[0]}`);
     deleteBtn.innerText = "Delete";
     row.appendChild(deleteBtn);
     let updateBtn = document.createElement("button");
 
     updateBtn.innerText = "Update";
+    updateBtn.setAttribute("class", `${storageArray[0]}`);
     row.appendChild(updateBtn);
 
     table.appendChild(row);
-    updateBtn.setAttribute("onclick", updateData);
+    updateBtn.setAttribute("onclick", "{updateData()}");
     storage = [];
 }
 
 function deleteData() {
+    let rowToDelete = event.target.getAttribute("class");
+    console.log(rowToDelete);
     // remove row from table
-    table.removeChild(document.querySelector(`#row-${label.value}`));
+    table.removeChild(document.querySelector(`#row-${rowToDelete}`));
     // remove item from localStorage
-    localStorage.removeItem(`row-${label.value}`);
+    localStorage.removeItem(`row-${rowToDelete}`);
 }
 
 function updateData(){
-    // let newPrincipal = prompt("Enter a new principal amount");
-    // let newInterest = prompt("Enter a new interest rate");
-    // let newTime = prompt("Enter a new amount of time");
+    let rowToUpdate = event.target.getAttribute("class");
+
+    let newPrincipal = prompt("Enter a new principal amount");
+    let newInterest = prompt("Enter a new interest rate");
+    let newTime = prompt("Enter a new amount of time");
+    table.removeChild(document.querySelector(`#row-${rowToUpdate}`));
+    let newAmount = newPrincipal * (1 + newInterest * newTime);
+    let newArray = [rowToUpdate, newPrincipal, newInterest, newTime, newAmount];
+
+    localStorage.setItem(`row-${rowToUpdate}`, JSON.stringify(newArray));
+    
+    let row = document.createElement("tr");
+    row.setAttribute("id", `row-${rowToUpdate}`);
+    for (let i = 0; i < newArray.length; i++) {
+        let data = document.createElement("td");
+        data.innerText = newArray[i];
+        row.appendChild(data);
+    };
+
+    let deleteBtn = document.createElement("button");
+    deleteBtn.setAttribute("onclick", "{deleteData()}");
+    deleteBtn.setAttribute("class", `${newArray[0]}`);
+    deleteBtn.innerText = "Delete";
+    row.appendChild(deleteBtn);
+    let updateBtn = document.createElement("button");
+
+    updateBtn.innerText = "Update";
+    updateBtn.setAttribute("class", `${newArray[0]}`);
+    row.appendChild(updateBtn);
+
+    table.appendChild(row);
 }
