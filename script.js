@@ -34,11 +34,15 @@ for (let key in localStorage) {
     }
 }
 
-function calculateInterest(){
-    amount = principal.value * (1 + interest.value * time.value);
-    amount = amount.toFixed(2);
-    storage.push(label.value, principal.value, interest.value, time.value, amount);
-    addData();
+function calculateInterest() {
+    if (!label.value || !principal.value || !interest.value || !time.value) {
+        alert("Please fill out all elements with valid input.");
+    } else {
+        amount = principal.value * (1 + interest.value * time.value);
+        amount = amount.toFixed(2);
+        storage.push(label.value, "$" + principal.value, interest.value, time.value, "$" + amount);
+        addData();
+    }
 }
 
 function addData() {
@@ -52,7 +56,7 @@ function addData() {
         data.innerText = storageArray[i];
         row.appendChild(data);
     };
-    
+
     let deleteBtn = document.createElement("button");
     deleteBtn.setAttribute("onclick", "{deleteData()}");
     deleteBtn.setAttribute("class", `${storageArray[0]}`);
@@ -78,36 +82,40 @@ function deleteData() {
     localStorage.removeItem(`row-${rowToDelete}`);
 }
 
-function updateData(){
+function updateData() {
     let rowToUpdate = event.target.getAttribute("class");
 
     let newPrincipal = prompt("Enter a new principal amount");
     let newInterest = prompt("Enter a new interest rate");
     let newTime = prompt("Enter a new amount of time");
-    table.removeChild(document.querySelector(`#row-${rowToUpdate}`));
-    let newAmount = newPrincipal * (1 + newInterest * newTime);
-    let newArray = [rowToUpdate, newPrincipal, newInterest, newTime, newAmount];
+    if (!newPrincipal || !newInterest || !newTime) {
+        alert("Please provide only numbers.");
+    } else {
+        table.removeChild(document.querySelector(`#row-${rowToUpdate}`));
+        let newAmount = newPrincipal * (1 + newInterest * newTime);
+        let newArray = [rowToUpdate, "$" + newPrincipal, newInterest, newTime, "$" + newAmount];
 
-    localStorage.setItem(`row-${rowToUpdate}`, JSON.stringify(newArray));
-    
-    let row = document.createElement("tr");
-    row.setAttribute("id", `row-${rowToUpdate}`);
-    for (let i = 0; i < newArray.length; i++) {
-        let data = document.createElement("td");
-        data.innerText = newArray[i];
-        row.appendChild(data);
-    };
+        localStorage.setItem(`row-${rowToUpdate}`, JSON.stringify(newArray));
 
-    let deleteBtn = document.createElement("button");
-    deleteBtn.setAttribute("onclick", "{deleteData()}");
-    deleteBtn.setAttribute("class", `${newArray[0]}`);
-    deleteBtn.innerText = "Delete";
-    row.appendChild(deleteBtn);
-    let updateBtn = document.createElement("button");
+        let row = document.createElement("tr");
+        row.setAttribute("id", `row-${rowToUpdate}`);
+        for (let i = 0; i < newArray.length; i++) {
+            let data = document.createElement("td");
+            data.innerText = newArray[i];
+            row.appendChild(data);
+        };
 
-    updateBtn.innerText = "Update";
-    updateBtn.setAttribute("class", `${newArray[0]}`);
-    row.appendChild(updateBtn);
+        let deleteBtn = document.createElement("button");
+        deleteBtn.setAttribute("onclick", "{deleteData()}");
+        deleteBtn.setAttribute("class", `${newArray[0]}`);
+        deleteBtn.innerText = "Delete";
+        row.appendChild(deleteBtn);
+        let updateBtn = document.createElement("button");
 
-    table.appendChild(row);
+        updateBtn.innerText = "Update";
+        updateBtn.setAttribute("class", `${newArray[0]}`);
+        row.appendChild(updateBtn);
+
+        table.appendChild(row);
+    }
 }
