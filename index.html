@@ -14,15 +14,31 @@
     </header>
    <section>
     <p>Enter the principal amount to be invested. <br> The calculator will apply the specified interest rate over the specified time period.</p>
-       <table>
+       <table id="tableForm">
+        <tr><td><label for="name">Custom label:</label></td>
+            <td><input type="text" id="name"></td>
+        </tr>
         <tr><td><label for="principal">Principal amount:</label></td>
             <td><input type="number" min="0" step="0.01" id="principal"></td>
+        </tr>
         <tr><td><label for="interest">Interest rate:</label></td>
             <td><input type="text" id="interest"></td>
+        </tr>
         <tr><td><label for="time">Time in years:</label></td>
             <td><input type="text" id="time"></td>
-        <tr><td><button type="button" id="btn" onclick={calculateInterest()}>Calculate</button></td>
-            <td><button type="button" id="clear" onclick={clearInterest()}>Clear</button>
+        </tr>
+        <tr><td colspan="2"><button type="button" id="btn" onclick={calculateInterest()}>Calculate</button></td>
+            <!--<td><button type="button" id="clear" onclick={clearInterest()}>Clear</button></td>-->
+        </tr>
+        </table>
+    </section>
+    <section id="localStorage">
+        <table id="tableStorage">
+            <th>Name</th>
+            <th>Principal</th>
+            <th>Interest Rate</th>
+            <th>Time</th>
+            <th>Total Amount</th>
         </table>
     </section>
 </body>
