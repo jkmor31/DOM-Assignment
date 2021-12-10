@@ -9,6 +9,7 @@ const table = document.querySelector("#tableStorage");
 let storage = [];
 let amount;
 
+//Find previous entries in localStorage on first load
 for (let key in localStorage) {
     let storedArray = localStorage.getItem(key);
     if (storedArray) {
@@ -34,9 +35,10 @@ for (let key in localStorage) {
     }
 }
 
+//calculates total amount before adding to localStorage
 function calculateInterest() {
-    if (!label.value || !principal.value || !interest.value || !time.value) {
-        alert("Please fill out all elements with valid input.");
+    if (/\s/.test(label.value) || !label.value || !principal.value || !interest.value || !time.value) {
+        alert("Please fill out all numeric fields with numbers and text fields with no whitespace.");
     } else {
         amount = principal.value * (1 + interest.value * time.value);
         amount = amount.toFixed(2);
@@ -45,6 +47,7 @@ function calculateInterest() {
     }
 }
 
+//adds the new entry to localStorage and to HTML table
 function addData() {
     let row = document.createElement("tr");
     row.setAttribute("id", `row-${label.value}`);
@@ -73,15 +76,14 @@ function addData() {
     storage = [];
 }
 
+//deletes selected entry from localStorage and HTML table
 function deleteData() {
     let rowToDelete = event.target.getAttribute("class");
-    console.log(rowToDelete);
-    // remove row from table
     table.removeChild(document.querySelector(`#row-${rowToDelete}`));
-    // remove item from localStorage
     localStorage.removeItem(`row-${rowToDelete}`);
 }
 
+//updates selected entry to localStorage and HTML table
 function updateData() {
     let rowToUpdate = event.target.getAttribute("class");
 
